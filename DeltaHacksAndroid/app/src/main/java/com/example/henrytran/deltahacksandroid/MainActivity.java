@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.drive);
 
         // Create an instance of GoogleAPIClient
         if (mGoogleApiClient == null) {
