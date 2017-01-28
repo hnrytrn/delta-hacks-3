@@ -3,6 +3,7 @@
     package="com.example.henrytran.deltahacksandroid">
 
     <uses-permission android:name="android.permission.ACCESS_Fine_LOCATION"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
