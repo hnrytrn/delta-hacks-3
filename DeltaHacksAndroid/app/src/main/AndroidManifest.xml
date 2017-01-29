@@ -34,15 +34,6 @@
                 android:value="com.example.henrytran.deltahacksandroid.menuActivity" />
         </activity>
         <activity
-            android:name=".loadingActivity"
-            android:label="@string/title_activity_loading"
-            android:parentActivityName=".welcomeActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.henrytran.deltahacksandroid.welcomeActivity" />
-        </activity>
-        <activity
             android:name=".enterContactActivity"
             android:label="@string/title_activity_enter_contact"
             android:parentActivityName=".welcomeActivity"
@@ -59,15 +50,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.henrytran.deltahacksandroid.welcomeActivity" />
-        </activity>
-        <activity
-            android:name=".testActivity"
-            android:label="@string/title_activity_test"
-            android:parentActivityName=".menuActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.henrytran.deltahacksandroid.menuActivity" />
         </activity>
     </application>
 

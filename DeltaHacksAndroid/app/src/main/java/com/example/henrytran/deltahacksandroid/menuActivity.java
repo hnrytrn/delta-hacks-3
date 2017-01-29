@@ -27,12 +27,12 @@ public class menuActivity extends AppCompatActivity {
         });
 
         //        Set Button Listener
-        ((Button) findViewById(R.id.reviewButton)).setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.settingsButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("LD", "Review button of welcome pressed");
 
-                Intent intent = new Intent(menuActivity.this, testActivity.class);
+                Intent intent = new Intent(menuActivity.this, enterContactActivity.class);
                 startActivity(intent);
             }
 

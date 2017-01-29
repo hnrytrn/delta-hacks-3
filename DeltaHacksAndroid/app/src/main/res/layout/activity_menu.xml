@@ -19,12 +19,6 @@
         android:id="@+id/settingsButton" />
 
     <Button
-        android:text="Review"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/reviewButton" />
-
-    <Button
         android:text="Drive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

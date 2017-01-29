@@ -21,7 +21,7 @@ public class welcomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("LD", "Enter button of welcome pressed");
 
-                Intent intent = new Intent(welcomeActivity.this, loadingActivity.class);
+                Intent intent = new Intent(welcomeActivity.this, enterContactActivity.class);
                 startActivity(intent);
             }
 
