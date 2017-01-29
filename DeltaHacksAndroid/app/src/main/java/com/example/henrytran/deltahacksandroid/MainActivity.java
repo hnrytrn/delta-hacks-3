@@ -17,6 +17,7 @@ import com.google.android.gms.location.LocationServices;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    private static final String TAG1 = "LD";
     // GoogleAPIClient used for location services
     private GoogleApiClient mGoogleApiClient;
 
