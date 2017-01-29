@@ -1,7 +1,9 @@
 package com.example.henrytran.deltahacksandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,10 +13,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
+import com.yayandroid.rotatable.Rotatable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,27 +35,56 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int DATA_MESSAGE = 10;
-
     // GoogleAPIClient used for location services
     private GoogleApiClient mGoogleApiClient;
-
     private Location mLastLocation;
     private Econtact mEContact;
-    private String LOG_TAG = this.getClass().getSimpleName();
-
+    private final String LOG_TAG = this.getClass().getSimpleName();
+    private ImageView head;
+    private TextView xCordTV;
+    private TextView yCordTV;
+    private TextView zCordTV;
+    int count = 5;
+    private boolean stopBackgroundThread;
     // Handles data coming from the server
     private final Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case DATA_MESSAGE:
-                    double[] posVals = (double[]) msg.obj;
+            int[] posVals = (int[]) msg.obj;
+            xCordTV.setText(String.valueOf(posVals[0]));
+            yCordTV.setText(String.valueOf(posVals[1]));
+            zCordTV.setText(String.valueOf(posVals[2]));
 
-                    Log.e(LOG_TAG, "x = " + posVals[0] + "\ny = " + posVals[1] + "\nz = " + posVals[2]);
-
-                    // TODO Update UI
+            if (posVals[0] > 20 || posVals[1] > 20 || posVals[0] < -20 || posVals[1] < -20) {
+                Log.e(LOG_TAG, "Falling asleep..");
+                //reset posVals
+                posVals[0] = 0;
+                posVals[1] = 0;
+                posVals[2] = 0;
+                callNumber();
             }
+            int max = Math.max(Math.abs(posVals[1]), Math.abs(posVals[0]));
+
+                    if(max>15){
+                        head.setColorFilter(Color.parseColor("#4c0000"));
+                    }else{
+                        if(max>10){
+                            head.setColorFilter(Color.parseColor("#660000"));
+                        }else{
+                            if(max>8){
+                                head.setColorFilter(Color.parseColor("#990000"));
+                            }else{
+                                if(max>5){
+                                    head.setColorFilter(Color.parseColor("#ff0000"));
+                                }
+                            }
+
+                        }
+
+
+
+                    }
         }
     };
 
@@ -58,7 +92,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drive);
-
+        xCordTV = (TextView) findViewById(R.id.x);
+        yCordTV = (TextView) findViewById(R.id.y);
+        zCordTV = (TextView) findViewById(R.id.z);
+        head = (ImageView) findViewById(R.id.head);
 //        // Create an instance of GoogleAPIClient
 //        if (mGoogleApiClient == null) {
 //            mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -79,11 +116,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //            return;
 //        }
 //        Log.e(LOG_TAG, String.valueOf(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).getLatitude()));
-//        // Get eContactNumber from shared preferences
-//        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-//        Gson gson = new Gson();
-//        String json = prefs.getString("EContact", "");
-//        mEContact = gson.fromJson(json, Econtact.class);
+        // Get eContactNumber from shared preferences
+        SharedPreferences prefs = getSharedPreferences("EContactInfo", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString("EContact", "");
+        mEContact = gson.fromJson(json, Econtact.class);
 
         FetchDataThread fetchDataThread = new FetchDataThread();
         fetchDataThread.start();
@@ -113,12 +150,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-        if (mLastLocation != null) {
-
-            Log.e("MainActivity", String.valueOf(mLastLocation.getLatitude()) + ", " + String.valueOf(mLastLocation.getLongitude()));
-        }
+//        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+//                mGoogleApiClient);
+//        if (mLastLocation != null) {
+//
+//            Log.e("MainActivity", String.valueOf(mLastLocation.getLatitude()) + ", " + String.valueOf(mLastLocation.getLongitude()));
+//        }
     }
 
     @Override
@@ -142,8 +179,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Log.e(LOG_TAG, "Can't Call " + Uri.parse("tel:" + mEContact.getPhoneNumber()).toString());
             return;
         }
+        stopBackgroundThread = true;
         startActivity(callIntent);
     }
 
@@ -159,7 +198,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             BufferedReader reader = null;
             String jsonData = null;
 
-            while (true) {
+            stopBackgroundThread = false;
+
+            while (!stopBackgroundThread) {
                 try {
                     // Create request to http server
                     URL url = new URL("http://172.17.43.101:8080");
@@ -176,11 +217,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     String line;
                     while ((line = reader.readLine()) != null) {
                         buffer.append(line + "\n");
-                        Log.e(LOG_TAG, "Line: " + line);
                     }
 
                     jsonData = buffer.toString();
-                    Log.e(LOG_TAG, jsonData);
                     parseJsonData(jsonData);
                 } catch (IOException e) {
                     Log.e(LOG_TAG, "Error ", e);
@@ -210,18 +249,32 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
          * @param jsonStr json string response from http server
          * @throws JSONException
          */
+
+
         private void parseJsonData(String jsonStr) throws JSONException {
             JSONArray dataJsonArray = new JSONArray(jsonStr);
             // x, y, z values
-            double[] posVals = new double[3];
-            posVals[0] = dataJsonArray.getDouble(0);
-            posVals[1] = dataJsonArray.getDouble(1);
-            posVals[2] = dataJsonArray.getDouble(2);
+            int[] posVals = new int[3];
+            posVals[0] = dataJsonArray.getInt(0);
+            posVals[1] = dataJsonArray.getInt(1);
+            posVals[2] = dataJsonArray.getInt(2);
+            count++;
+            if(count%20 == 0) {
+                head.setRotation(posVals[0] * 3);
+                int max = Math.max(Math.abs(posVals[1]), Math.abs(posVals[0]));
+                head.setTranslationY(max * 8);
 
-            Log.e(LOG_TAG, "x = " + String.valueOf(posVals[0]) + "\ny = " + String.valueOf(posVals[1]) + "\nz = " + String.valueOf(posVals[2]));
-
+            }
             // Send data to handler
-            mHandler.obtainMessage(DATA_MESSAGE, posVals);
+            Message message = new Message();
+            message.obj = posVals;
+            mHandler.sendMessage(message);
         }
+
+
+
+
+
+
     }
 }
