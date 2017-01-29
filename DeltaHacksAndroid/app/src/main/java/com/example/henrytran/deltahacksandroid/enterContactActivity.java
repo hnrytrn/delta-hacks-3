@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 public class enterContactActivity extends AppCompatActivity {
     private static final String TAG1 = "LD";
-    private Econtact econtact1 ;
+    private Econtact econtact1;
 
 
 
@@ -30,7 +30,7 @@ public class enterContactActivity extends AppCompatActivity {
 
 //                  Save Contact Info (setEcontact sets local var econtact1
 
-                    SharedPreferences prefs = getSharedPreferences("deltahacks3.app", Context.MODE_PRIVATE);
+                    SharedPreferences prefs = getSharedPreferences("com.example.henrytran.deltahacksandroid", Context.MODE_PRIVATE);
 
                     Log.d(TAG1,"Saving Econtact: "+ econtact1);
 

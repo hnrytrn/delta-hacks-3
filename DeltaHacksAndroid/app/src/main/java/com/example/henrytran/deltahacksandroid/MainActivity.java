@@ -36,10 +36,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     // GoogleAPIClient used for location services
     private GoogleApiClient mGoogleApiClient;
 
-    Location mLastLocation;
-
-    String eContactNumber;
-    String LOG_TAG = this.getClass().getSimpleName();
+    private Location mLastLocation;
+    private Econtact mEContact;
+    private String LOG_TAG = this.getClass().getSimpleName();
 
     // Handles data coming from the server
     private final Handler mHandler = new Handler() {
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Log.d(LOG_TAG, String.valueOf(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).getLatitude()));
         // Get eContactNumber from shared preferences
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        eContactNumber = prefs.getString("eContact", "");
+        mEContact = prefs.getString("EContact", "");
     }
 
     @Override
