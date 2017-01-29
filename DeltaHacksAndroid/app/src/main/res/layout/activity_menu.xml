@@ -20,7 +20,6 @@
         android:id="@+id/driveButton"
         android:layout_weight="0.05"
         android:layout_width="match_parent"
-        android:layout_below="settingsButton"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="100dp"
         android:layout_marginBottom="100dp"
