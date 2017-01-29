@@ -1,6 +1,5 @@
 package com.example.henrytran.deltahacksandroid;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,10 +11,10 @@ import android.widget.EditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import com.google.gson.Gson;
 public class enterContactActivity extends AppCompatActivity {
     private static final String TAG1 = "LD";
-    private Econtact econtact1 ;
+    private Econtact econtact1;
 
 
 
@@ -33,11 +32,15 @@ public class enterContactActivity extends AppCompatActivity {
 
 //                  Save Contact Info (setEcontact sets local var econtact1
 
-                    SharedPreferences prefs = getSharedPreferences("deltahacks3.app", Context.MODE_PRIVATE);
+                    SharedPreferences prefs = getPreferences(MODE_PRIVATE);
 
                     Log.d(TAG1,"Saving Econtact: "+ econtact1);
 
-                    prefs.edit().putString("EContact",econtact1.toString()).apply();
+                    SharedPreferences.Editor prefsEditor = prefs.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(econtact1);
+                    prefsEditor.putString("EContact", json);
+                    prefsEditor.commit();
 
 //                    TODO: Successful alert!
 
