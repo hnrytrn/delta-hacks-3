@@ -1,6 +1,5 @@
 package com.example.henrytran.deltahacksandroid;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.gson.Gson;
 
 public class enterContactActivity extends AppCompatActivity {
     private static final String TAG1 = "LD";
@@ -30,11 +31,15 @@ public class enterContactActivity extends AppCompatActivity {
 
 //                  Save Contact Info (setEcontact sets local var econtact1
 
-                    SharedPreferences prefs = getSharedPreferences("com.example.henrytran.deltahacksandroid", Context.MODE_PRIVATE);
+                    SharedPreferences prefs = getPreferences(MODE_PRIVATE);
 
                     Log.d(TAG1,"Saving Econtact: "+ econtact1);
 
-                    prefs.edit().putString("EContact",econtact1.toString()).apply();
+                    SharedPreferences.Editor prefsEditor = prefs.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(econtact1);
+                    prefsEditor.putString("EContact", json);
+                    prefsEditor.commit();
 
 //                    TODO: Successful alert!
 

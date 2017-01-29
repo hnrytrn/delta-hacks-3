@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +16,7 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,8 +83,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
         Log.d(LOG_TAG, String.valueOf(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).getLatitude()));
         // Get eContactNumber from shared preferences
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mEContact = prefs.getString("EContact", "");
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString("EContact", "");
+        mEContact = gson.fromJson(json, Econtact.class);
     }
 
     @Override
@@ -131,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void callNumber() {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:" + eContactNumber));
+        callIntent.setData(Uri.parse("tel:" + mEContact.getPhoneNumber()));
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
