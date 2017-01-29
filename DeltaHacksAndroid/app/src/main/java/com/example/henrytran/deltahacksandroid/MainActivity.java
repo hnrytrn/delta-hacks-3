@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView zCordTV;
 
     private boolean stopBackgroundThread;
+
+    private int sleepCount = 0;
     // Handles data coming from the server
     private final Handler mHandler = new Handler() {
 
@@ -57,14 +59,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             zCordTV.setText(String.valueOf(posVals[2]));
 
             if (posVals[0] > 20 || posVals[1] > 20 || posVals[0] < -20 || posVals[1] < -20) {
-                Log.e(LOG_TAG, "Falling asleep..");
-                //reset posVals
-                posVals[0] = 0;
-                posVals[1] = 0;
-                posVals[2] = 0;
-
-                //callNumber();
-                sendSms();
+                if (sleepCount == 0) {
+                    sendSms();
+                    sleepCount++;
+                } else if (sleepCount == 1) {
+                    callNumber();
+                }
             }
         }
     };
