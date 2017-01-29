@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
-import com.yayandroid.rotatable.Rotatable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     // Handles data coming from the server
     private final Handler mHandler = new Handler() {
 
+        int threshold = 18;
         @Override
         public void handleMessage(Message msg) {
             int[] posVals = (int[]) msg.obj;
@@ -59,13 +59,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             yCordTV.setText(String.valueOf(posVals[1]));
             zCordTV.setText(String.valueOf(posVals[2]));
 
-            if (posVals[0] > 20 || posVals[1] > 20 || posVals[0] < -20 || posVals[1] < -20) {
-                if (sleepCount == 0) {
+            if (posVals[0] > threshold || posVals[1] > threshold || posVals[0] < -threshold || posVals[1] < -threshold) {
+                if (sleepCount == 20) {
                     sendSms();
-                    sleepCount++;
-                } else if (sleepCount == 1) {
+                } else if (sleepCount == 40) {
                     callNumber();
                 }
+                sleepCount++;
+                Log.e(LOG_TAG, "Count: " + sleepCount);
             }
             int max = Math.max(Math.abs(posVals[1]), Math.abs(posVals[0]));
 
@@ -74,19 +75,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     }else{
                         if(max>10){
                             head.setColorFilter(Color.parseColor("#660000"));
-                        }else{
-                            if(max>8){
-                                head.setColorFilter(Color.parseColor("#990000"));
-                            }else{
-                                if(max>5){
-                                    head.setColorFilter(Color.parseColor("#ff0000"));
-                                }
-                            }
-
                         }
-
-
-
                     }
         }
     };
@@ -209,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             stopBackgroundThread = false;
 
             while (!stopBackgroundThread) {
+
                 try {
                     // Create request to http server
                     URL url = new URL("http://172.17.43.101:8080");
@@ -271,12 +261,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 head.setRotation(posVals[0] * 3);
                 int max = Math.max(Math.abs(posVals[1]), Math.abs(posVals[0]));
                 head.setTranslationY(max * 8);
-
             }
-            // Send data to handler
-            Message message = new Message();
-            message.obj = posVals;
-            mHandler.sendMessage(message);
+            if (count % 10 == 0) {
+                // Send data to handler
+                Message message = new Message();
+                message.obj = posVals;
+                mHandler.sendMessage(message);
+            }
         }
 
 
