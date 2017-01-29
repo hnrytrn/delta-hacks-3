@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView"
         android:textAlignment="center"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:paddingTop="20dp" />
 
     <TextView
         android:text="Details Blah Blah Blah"
@@ -18,13 +19,19 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
         android:textAlignment="center"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" />
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
         app:srcCompat="@mipmap/wheel"
-        android:id="@+id/imageView" />
+        android:id="@+id/imageView"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:paddingBottom="25dp"
+        android:paddingTop="45dp"
+        android:layout_height="220dp" />
 
     <TextView
         android:text="Loading..."
