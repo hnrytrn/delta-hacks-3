@@ -3,8 +3,10 @@ package com.example.henrytran.deltahacksandroid;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.location.Location;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,7 +36,6 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private static final int DATA_MESSAGE = 10;
     // GoogleAPIClient used for location services
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
@@ -48,10 +49,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private boolean stopBackgroundThread;
 
     private int sleepCount = 0;
+
     // Handles data coming from the server
     private final Handler mHandler = new Handler() {
-
-        int threshold = 18;
+        final MediaPlayer mp = new MediaPlayer();
+        int threshold = 17;
         @Override
         public void handleMessage(Message msg) {
             int[] posVals = (int[]) msg.obj;
@@ -60,6 +62,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             zCordTV.setText(String.valueOf(posVals[2]));
 
             if (posVals[0] > threshold || posVals[1] > threshold || posVals[0] < -threshold || posVals[1] < -threshold) {
+
+                if(mp.isPlaying())
+                {
+                    mp.stop();
+                }
+
+                try {
+                    mp.reset();
+                    AssetFileDescriptor afd;
+                    afd = getAssets().openFd("alarm_beep.mp3");
+                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    mp.prepare();
+                    mp.start();
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 if (sleepCount == 20) {
                     sendSms();
                 } else if (sleepCount == 40) {
@@ -72,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                     if(max>15){
                         head.setColorFilter(Color.parseColor("#4c0000"));
-                    }else{
+                    } else {
                         if(max>10){
                             head.setColorFilter(Color.parseColor("#660000"));
                         }
@@ -180,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void sendSms() {
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(mEContact.getPhoneNumber(), null, "Hey your friend is falling asleep", null, null);
+        smsManager.sendTextMessage(mEContact.getPhoneNumber(), null, "Hey "+mEContact.getFullName()+ ", I'm feeling a bit tired at the wheel. You should give me a call to talk! -Sent By LifeLine Android Application", null, null);
         Log.e(LOG_TAG, "Sent message");
     }
     /**
