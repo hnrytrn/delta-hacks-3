@@ -13,7 +13,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textColor="@android:color/black"
-        android:background="fafafa" />
+        android:background="#fafafa" />
 
     <TextView
         android:text="Primary Contact"

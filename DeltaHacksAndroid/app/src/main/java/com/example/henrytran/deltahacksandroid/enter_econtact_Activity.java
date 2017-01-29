@@ -1,23 +1,15 @@
 package com.example.henrytran.deltahacksandroid;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
-
-/**
- * Created by L1amDuncan on 2017-01-28.
- */
-
-public class enter_econtactActivity extends Activity{
+public class enter_econtact_Activity extends AppCompatActivity {
 
 
     private static final String TAG1 = "LD";
@@ -45,14 +37,21 @@ public class enter_econtactActivity extends Activity{
 
                     prefs.edit().putString("EContact",econtact1.toString()).apply();
 
+//                    TODO: Successful alert!
+
+//                    Change to Menu View
+
+                    setContentView(R.layout.menu);
+                    return;
                 }
                 else{
 //                    Dont save ( checkEcontactValid() will handle error messages )
+                    Log.d(TAG1,"Error in data entry");
                     return;
                 }
 
             }
-    });
+        });
     }
 
 
@@ -106,26 +105,31 @@ public class enter_econtactActivity extends Activity{
         if (fName == null || fName.length() == 0) {
 //              No first name entered
 //            TODO: Pop up alert!
+            Log.d(TAG1,"No fName");
             return false;
         }
         if (lName == null || lName.length() == 0) {
 //              No last name entered
 //            TODO: Pop up alert!
+            Log.d(TAG1,"No lName");
             return false;
         }
         if (phoneNum == null || phoneNum.length() == 0) {
 //              No phone num entered
 //            TODO: Pop up alert!
+            Log.d(TAG1,"No phone num");
             return false;
         }
-        if (phoneNumCheck(phoneNum)) {
-//            Invalid PhoneNum
-//            TODO: Invalid Phone number alert!
-            return false;
-        }
+//        if (phoneNumCheck(phoneNum)) {
+////            Invalid PhoneNum
+////            TODO: Invalid Phone number alert!
+//            Log.d(TAG1,"Phone Num Not Valid");
+//            return false;
+//        }
+
 
         econtact1 = new Econtact(fName,lName,phoneNum);
-
+        Log.d(TAG1,"Econtact saved!");
         return true;
     }
 
