@@ -70,31 +70,7 @@ public class enterContactActivity extends AppCompatActivity {
 
 
 
-    public class Econtact {
 
-
-        String firstName;
-        String lastName;
-        String phoneNumber;
-
-        Econtact(String firstName, String lastName, String phoneNumber){
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.phoneNumber = phoneNumber;
-        }
-
-        public String getPhoneNumber(){
-            return this.phoneNumber;
-        }
-
-        public String getFullName(){
-            return this.firstName+" "+this.lastName;
-        }
-
-
-
-
-    }
 
     public boolean setEcontact() {
 
@@ -133,14 +109,14 @@ public class enterContactActivity extends AppCompatActivity {
         return true;
     }
 
-    boolean phoneNumCheck(String phoneTest){
-        String[] regexStr = {"^[0-9]*$","^[0-9]{10}$","^[0-9\\-]*$","^(1\\-)?[0-9]{3}\\-?[0-9]{3}\\-?[0-9]{4}$"};
-        for (String x:regexStr) {
-            if (phoneTest.matches(x)){
-                return true;
-            }
-        }
-        return false;
-    }
+//    boolean phoneNumCheck(String phoneTest){
+//        String[] regexStr = {"^[0-9]*$","^[0-9]{10}$","^[0-9\\-]*$","^(1\\-)?[0-9]{3}\\-?[0-9]{3}\\-?[0-9]{4}$"};
+//        for (String x:regexStr) {
+//            if (phoneTest.matches(x)){
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
 }
