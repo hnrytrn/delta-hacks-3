@@ -9,11 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.google.gson.Gson;
 public class enterContactActivity extends AppCompatActivity {
     private static final String TAG1 = "LD";
+    private final String LOG_TAG = this.getClass().getSimpleName();
     private Econtact econtact1;
 
 
@@ -27,14 +29,14 @@ public class enterContactActivity extends AppCompatActivity {
         ((Button) findViewById(R.id.enterButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG1,"Econtact Submit Press");
+                Log.e(LOG_TAG,"Econtact Submit Press");
                 if(setEcontact()){
 
 //                  Save Contact Info (setEcontact sets local var econtact1
 
-                    SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+                    SharedPreferences prefs = getSharedPreferences("EContactInfo", MODE_PRIVATE);
 
-                    Log.d(TAG1,"Saving Econtact: "+ econtact1);
+                    Log.e(LOG_TAG,"Saving Econtact: "+ econtact1);
 
                     SharedPreferences.Editor prefsEditor = prefs.edit();
                     Gson gson = new Gson();
@@ -52,7 +54,7 @@ public class enterContactActivity extends AppCompatActivity {
                 }
                 else{
 //                    Dont save ( checkEcontactValid() will handle error messages )
-                    Log.d(TAG1,"Error in data entry");
+                    Log.e(LOG_TAG,"Error in data entry");
                     return;
                 }
 

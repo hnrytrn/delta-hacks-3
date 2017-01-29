@@ -1,6 +1,7 @@
 package com.example.henrytran.deltahacksandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private Location mLastLocation;
     private Econtact mEContact;
-    private String LOG_TAG = this.getClass().getSimpleName();
+    private final String LOG_TAG = this.getClass().getSimpleName();
 
     private TextView xCordTV;
     private TextView yCordTV;
@@ -51,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             xCordTV.setText(String.valueOf(posVals[0]));
             yCordTV.setText(String.valueOf(posVals[1]));
             zCordTV.setText(String.valueOf(posVals[2]));
+
+            if (posVals[0] > 20 || posVals[1] > 20) {
+                Log.e(LOG_TAG, mEContact.getPhoneNumber());
+                callNumber();
+            }
         }
     };
 
@@ -83,11 +90,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //            return;
 //        }
 //        Log.e(LOG_TAG, String.valueOf(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).getLatitude()));
-//        // Get eContactNumber from shared preferences
-//        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-//        Gson gson = new Gson();
-//        String json = prefs.getString("EContact", "");
-//        mEContact = gson.fromJson(json, Econtact.class);
+        // Get eContactNumber from shared preferences
+        SharedPreferences prefs = getSharedPreferences("EContactInfo", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString("EContact", "");
+        mEContact = gson.fromJson(json, Econtact.class);
 
         FetchDataThread fetchDataThread = new FetchDataThread();
         fetchDataThread.start();
