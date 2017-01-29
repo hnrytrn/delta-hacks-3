@@ -11,10 +11,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,19 +38,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private Econtact mEContact;
     private String LOG_TAG = this.getClass().getSimpleName();
 
+    private TextView xCordTV;
+    private TextView yCordTV;
+    private TextView zCordTV;
+
     // Handles data coming from the server
     private final Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case DATA_MESSAGE:
-                    double[] posVals = (double[]) msg.obj;
-
-                    Log.e(LOG_TAG, "x = " + posVals[0] + "\ny = " + posVals[1] + "\nz = " + posVals[2]);
-
-                    // TODO Update UI
-            }
+            int[] posVals = (int[]) msg.obj;
+            xCordTV.setText(String.valueOf(posVals[0]));
+            yCordTV.setText(String.valueOf(posVals[1]));
+            zCordTV.setText(String.valueOf(posVals[2]));
         }
     };
 
@@ -58,6 +58,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drive);
+
+        xCordTV = (TextView) findViewById(R.id.x);
+        yCordTV = (TextView) findViewById(R.id.y);
+        zCordTV = (TextView) findViewById(R.id.z);
 
 //        // Create an instance of GoogleAPIClient
 //        if (mGoogleApiClient == null) {
@@ -113,12 +117,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-        if (mLastLocation != null) {
-
-            Log.e("MainActivity", String.valueOf(mLastLocation.getLatitude()) + ", " + String.valueOf(mLastLocation.getLongitude()));
-        }
+//        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+//                mGoogleApiClient);
+//        if (mLastLocation != null) {
+//
+//            Log.e("MainActivity", String.valueOf(mLastLocation.getLatitude()) + ", " + String.valueOf(mLastLocation.getLongitude()));
+//        }
     }
 
     @Override
@@ -176,11 +180,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     String line;
                     while ((line = reader.readLine()) != null) {
                         buffer.append(line + "\n");
-                        Log.e(LOG_TAG, "Line: " + line);
                     }
 
                     jsonData = buffer.toString();
-                    Log.e(LOG_TAG, jsonData);
                     parseJsonData(jsonData);
                 } catch (IOException e) {
                     Log.e(LOG_TAG, "Error ", e);
@@ -213,15 +215,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         private void parseJsonData(String jsonStr) throws JSONException {
             JSONArray dataJsonArray = new JSONArray(jsonStr);
             // x, y, z values
-            double[] posVals = new double[3];
-            posVals[0] = dataJsonArray.getDouble(0);
-            posVals[1] = dataJsonArray.getDouble(1);
-            posVals[2] = dataJsonArray.getDouble(2);
-
-            Log.e(LOG_TAG, "x = " + String.valueOf(posVals[0]) + "\ny = " + String.valueOf(posVals[1]) + "\nz = " + String.valueOf(posVals[2]));
+            int[] posVals = new int[3];
+            posVals[0] = dataJsonArray.getInt(0);
+            posVals[1] = dataJsonArray.getInt(1);
+            posVals[2] = dataJsonArray.getInt(2);
 
             // Send data to handler
-            mHandler.obtainMessage(DATA_MESSAGE, posVals);
+            Message message = new Message();
+            message.obj = posVals;
+            mHandler.sendMessage(message);
         }
     }
 }
