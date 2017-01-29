@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:id="@+id/mainView">
+
+    <ImageView
+        app:srcCompat="@mipmap/headleft"
+        android:id="@+id/headLeft"
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
+
+    <Button
+        android:text="addY"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/addY" />
+
+    <Button
+        android:text="ADDX"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/addX" />
+
+</LinearLayout>

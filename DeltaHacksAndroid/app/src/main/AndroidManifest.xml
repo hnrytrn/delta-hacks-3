@@ -60,6 +60,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.henrytran.deltahacksandroid.welcomeActivity" />
         </activity>
+        <activity
+            android:name=".testActivity"
+            android:label="@string/title_activity_test"
+            android:parentActivityName=".menuActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.henrytran.deltahacksandroid.menuActivity" />
+        </activity>
     </application>
 
 </manifest>
