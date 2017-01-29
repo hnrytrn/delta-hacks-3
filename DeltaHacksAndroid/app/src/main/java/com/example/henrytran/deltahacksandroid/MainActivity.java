@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -29,7 +31,8 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private static final String TAG1 = "LD";
+    private static final int DATA_MESSAGE = 10;
+
     // GoogleAPIClient used for location services
     private GoogleApiClient mGoogleApiClient;
 
@@ -37,6 +40,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     String eContactNumber;
     String LOG_TAG = this.getClass().getSimpleName();
+
+    // Handles data coming from the server
+    private final Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch(msg.what) {
+                case DATA_MESSAGE:
+                    double[] posVals = (double[]) msg.obj;
+
+                    Log.d(LOG_TAG, "x = " + posVals[0] + "\ny = " + posVals[1] + "\nz = " + posVals[2]);
+
+                    // TODO Update UI
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,12 +197,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         private void parseJsonData(String jsonStr) throws JSONException {
             JSONObject dataJson = new JSONObject(jsonStr);
 
-            double xVal = dataJson.getDouble("x");
-            double yVal = dataJson.getDouble("y");
-            double zVal = dataJson.getDouble("z");
+            // x, y, z values
+            double[] posVals = new double[3];
+            posVals[0] = dataJson.getDouble("x");
+            posVals[1] = dataJson.getDouble("y");
+            posVals[2] = dataJson.getDouble("z");
 
-            // TODO call callNumber when x, y, z values pass a certain threshold
-            Log.d(LOG_TAG, "x = " + xVal + "\ny = " + yVal + "\nz = " + zVal);
+            // Send data to handler
+            mHandler.obtainMessage(DATA_MESSAGE, posVals);
         }
     }
 }
