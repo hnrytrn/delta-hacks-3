@@ -36,8 +36,7 @@
                 android:ems="10"
                 android:id="@+id/fName"
                 android:layout_weight="1"
-                android:hint="First Name..."
-                android:text="Liam" />
+                android:hint="First Name..." />
 
             <EditText
                 android:layout_width="match_parent"
@@ -46,8 +45,7 @@
                 android:ems="10"
                 android:id="@+id/lName"
                 android:layout_weight="1"
-                android:hint="Last Name..."
-                android:text="Duncan" />
+                android:hint="Last Name..." />
 
             <EditText
                 android:layout_width="match_parent"
@@ -57,8 +55,7 @@
                 android:id="@+id/phoneNumber"
                 android:layout_weight="1"
                 android:contentDescription="Enter your phone number here"
-                android:hint="Phone Number..."
-                android:text="2508631803" />
+                android:hint="Phone Number..." />
 
             <Button
                 android:text="Submit"

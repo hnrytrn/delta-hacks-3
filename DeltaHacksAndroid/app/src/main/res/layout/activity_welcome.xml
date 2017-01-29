@@ -3,39 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:paddingTop="50dp"
+    android:paddingRight="5dp"
+    android:paddingLeft="5dp"
+    android:paddingBottom="5dp">
 
     <TextView
-        android:text="LifeLine"
-        android:layout_width="match_parent"
-        android:id="@+id/title"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="50sp"
-        android:padding="10dp" />
-
-    <TextView
-        android:text="Welcome to LifeLine!"
+        android:text="Feeling Tired?"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/welcome"
         android:textAlignment="center"
         android:textSize="25sp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:textColor="@android:color/black" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="256dp"
-        app:srcCompat="@mipmap/logo1"
-        android:id="@+id/imageView"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
-        android:layout_weight="1.03" />
-
-    <Button
-        android:text="enter"
         android:layout_width="match_parent"
-        android:id="@+id/enterButton"
-        android:layout_height="172dp" />
+        android:layout_height="269dp"
+        app:srcCompat="@mipmap/lifline"
+        android:id="@+id/wheel"
+        android:layout_weight="0.42"
+        android:clickable="true" />
+
+    <TextView
+        android:text="Call a LifeLine!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_weight="0.07"
+        android:paddingBottom="20dp"
+        android:paddingTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textAlignment="center" />
+
 </LinearLayout>
