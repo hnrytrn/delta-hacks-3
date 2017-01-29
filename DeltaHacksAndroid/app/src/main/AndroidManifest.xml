@@ -13,7 +13,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".loading_Activity">
+        <activity
+            android:name=".welcomeActivity"
+            android:label="welcomeActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,14 +24,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".enter_econtact_Activity"
-            android:parentActivityName="" />
-        <activity android:name=".welcomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".MainActivity"
+            android:label="MainActivity"
+            android:parentActivityName=".welcomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.henrytran.deltahacksandroid.menuActivity" />
+        </activity>
+        <activity
+            android:name=".loadingActivity"
+            android:label="@string/title_activity_loading"
+            android:parentActivityName=".welcomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.henrytran.deltahacksandroid.welcomeActivity" />
+        </activity>
+        <activity
+            android:name=".enterContactActivity"
+            android:label="@string/title_activity_enter_contact"
+            android:parentActivityName=".welcomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.henrytran.deltahacksandroid.welcomeActivity" />
+        </activity>
+        <activity
+            android:name=".menuActivity"
+            android:label="@string/title_activity_menu"
+            android:parentActivityName=".welcomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.henrytran.deltahacksandroid.welcomeActivity" />
         </activity>
     </application>
 
