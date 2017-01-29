@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -61,7 +62,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 posVals[0] = 0;
                 posVals[1] = 0;
                 posVals[2] = 0;
-                callNumber();
+
+                //callNumber();
+                sendSms();
             }
         }
     };
@@ -165,6 +168,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         startActivity(callIntent);
     }
 
+    private void sendSms() {
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(mEContact.getPhoneNumber(), null, "Hey your friend is falling asleep", null, null);
+        Log.e(LOG_TAG, "Sent message");
+    }
     /**
      *
      * Continuously fetches data from the http server
