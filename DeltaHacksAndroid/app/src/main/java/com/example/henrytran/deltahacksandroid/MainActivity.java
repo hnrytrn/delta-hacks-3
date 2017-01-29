@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private ImageView head;
     private TextView xCordTV;
     private TextView yCordTV;
-    private TextView zCordTV;
     int count = 5;
     private boolean stopBackgroundThread;
 
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             int[] posVals = (int[]) msg.obj;
             xCordTV.setText(String.valueOf(posVals[0]));
             yCordTV.setText(String.valueOf(posVals[1]));
-            zCordTV.setText(String.valueOf(posVals[2]));
 
             if (posVals[0] > threshold || posVals[1] > threshold || posVals[0] < -threshold || posVals[1] < -threshold) {
                 if (sleepCount == 20) {
@@ -86,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_drive);
         xCordTV = (TextView) findViewById(R.id.x);
         yCordTV = (TextView) findViewById(R.id.y);
-        zCordTV = (TextView) findViewById(R.id.z);
         head = (ImageView) findViewById(R.id.head);
 //        // Create an instance of GoogleAPIClient
 //        if (mGoogleApiClient == null) {
