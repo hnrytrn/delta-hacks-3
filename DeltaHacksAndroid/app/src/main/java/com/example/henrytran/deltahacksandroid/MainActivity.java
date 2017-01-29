@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -108,25 +107,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         yCordTV = (TextView) findViewById(R.id.y);
         head = (ImageView) findViewById(R.id.head);
         // Create an instance of GoogleAPIClient
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Log.e(LOG_TAG, String.valueOf(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).getLatitude()));
+//        if (mGoogleApiClient == null) {
+//            mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                    .addConnectionCallbacks(this)
+//                    .addOnConnectionFailedListener(this)
+//                    .addApi(LocationServices.API)
+//                    .build();
+//        }
+//
+//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        Log.e(LOG_TAG, String.valueOf(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).getLatitude()));
         // Get eContactNumber from shared preferences
         SharedPreferences prefs = getSharedPreferences("EContactInfo", MODE_PRIVATE);
         Gson gson = new Gson();
