@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mGoogleApiClient);
         if (mLastLocation != null) {
 
-            Log.e("MainActivity", mLastLocation.getLatitude() + ", " + mLastLocation.getLongitude());
+            Log.d("MainActivity", mLastLocation.getLatitude() + ", " + mLastLocation.getLongitude());
         }
     }
 
@@ -150,6 +150,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     Log.e(LOG_TAG, "Error ", e);
                     // If the code didn't successfully get the weather data, there's no point in attemping
                     // to parse it.
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 } finally {
                     if (urlConnection != null) {
                         urlConnection.disconnect();
@@ -165,12 +167,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         }
 
+        /**
+         *
+         * Parses Json data from the http server and passes it to the handler
+         *
+         * @param jsonStr json string response from http server
+         * @throws JSONException
+         */
         private void parseJsonData(String jsonStr) throws JSONException {
             JSONObject dataJson = new JSONObject(jsonStr);
 
-            double xVal dataJson.getDouble("x");
-            double yVal dataJson.getDouble("y");
-            double zVal dataJson.getDouble("z");
+            double xVal = dataJson.getDouble("x");
+            double yVal = dataJson.getDouble("y");
+            double zVal = dataJson.getDouble("z");
+
+            // TODO call callNumber when x, y, z values pass a certain threshold
+            Log.d(LOG_TAG, "x = " + xVal + "\ny = " + yVal + "\nz = " + zVal);
         }
     }
 }
