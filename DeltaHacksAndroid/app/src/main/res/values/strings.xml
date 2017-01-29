@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Awake-O-Meter</string>
+    <string name="app_name">LifeLine</string>
     <string name="title_activity_welcome">welcomeActivity</string>
     <string name="title_activity_loading">loadingActivity</string>
     <string name="title_activity_enter_contact">enterContactActivity</string>

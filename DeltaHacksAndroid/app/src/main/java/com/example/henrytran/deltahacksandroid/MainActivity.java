@@ -3,8 +3,10 @@ package com.example.henrytran.deltahacksandroid;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.location.Location;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -34,7 +37,6 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private static final int DATA_MESSAGE = 10;
     // GoogleAPIClient used for location services
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
@@ -47,10 +49,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private boolean stopBackgroundThread;
 
     private int sleepCount = 0;
+
     // Handles data coming from the server
     private final Handler mHandler = new Handler() {
-
-        int threshold = 18;
+        final MediaPlayer mp = new MediaPlayer();
+        int threshold = 17;
         @Override
         public void handleMessage(Message msg) {
             int[] posVals = (int[]) msg.obj;
@@ -58,6 +61,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             yCordTV.setText(String.valueOf(posVals[1]));
 
             if (posVals[0] > threshold || posVals[1] > threshold || posVals[0] < -threshold || posVals[1] < -threshold) {
+
+                if(mp.isPlaying())
+                {
+                    mp.stop();
+                }
+
+                try {
+                    mp.reset();
+                    AssetFileDescriptor afd;
+                    afd = getAssets().openFd("alarm_beep.mp3");
+                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    mp.prepare();
+                    mp.start();
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 if (sleepCount == 20) {
                     sendSms();
                 } else if (sleepCount == 40) {
@@ -70,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                     if(max>15){
                         head.setColorFilter(Color.parseColor("#4c0000"));
-                    }else{
+                    } else {
                         if(max>10){
                             head.setColorFilter(Color.parseColor("#660000"));
                         }
@@ -85,26 +107,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         xCordTV = (TextView) findViewById(R.id.x);
         yCordTV = (TextView) findViewById(R.id.y);
         head = (ImageView) findViewById(R.id.head);
-//        // Create an instance of GoogleAPIClient
-//        if (mGoogleApiClient == null) {
-//            mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                    .addConnectionCallbacks(this)
-//                    .addOnConnectionFailedListener(this)
-//                    .addApi(LocationServices.API)
-//                    .build();
-//        }
-//
-//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-//        Log.e(LOG_TAG, String.valueOf(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).getLatitude()));
+        // Create an instance of GoogleAPIClient
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Log.e(LOG_TAG, String.valueOf(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).getLatitude()));
         // Get eContactNumber from shared preferences
         SharedPreferences prefs = getSharedPreferences("EContactInfo", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -177,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void sendSms() {
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(mEContact.getPhoneNumber(), null, "Hey your friend is falling asleep", null, null);
+        smsManager.sendTextMessage(mEContact.getPhoneNumber(), null, "Hey "+mEContact.getFullName()+ ", I'm feeling a bit tired at the wheel. You should give me a call to talk! -Sent By LifeLine Android Application", null, null);
         Log.e(LOG_TAG, "Sent message");
     }
     /**
@@ -255,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             posVals[2] = dataJsonArray.getInt(2);
             count++;
             if(count%20 == 0) {
-                head.setRotation(posVals[0] * 3);
+                head.setRotation(-posVals[0] * 3);
                 int max = Math.max(Math.abs(posVals[1]), Math.abs(posVals[0]));
                 head.setTranslationY(max * 8);
             }
