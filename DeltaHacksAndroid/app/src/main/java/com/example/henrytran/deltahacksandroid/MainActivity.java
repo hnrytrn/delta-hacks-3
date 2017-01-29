@@ -48,11 +48,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private boolean stopBackgroundThread;
 
     private int sleepCount = 0;
+    private int countData = 0;
 
     // Handles data coming from the server
     private final Handler mHandler = new Handler() {
         final MediaPlayer mp = new MediaPlayer();
-        int threshold = 17;
+        int threshold = 15;
         @Override
         public void handleMessage(Message msg) {
             int[] posVals = (int[]) msg.obj;
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 if (sleepCount == 20) {
                     sendSms();
-                } else if (sleepCount == 40) {
+                } else if (sleepCount == 30) {
                     callNumber();
                 }
                 sleepCount++;
@@ -89,11 +90,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
             int max = Math.max(Math.abs(posVals[1]), Math.abs(posVals[0]));
 
+            count++;
+            if(count%10 == 0) {
+                head.setRotation(-posVals[0] * 3);
+                head.setTranslationY(max * 8);
+            }
                     if(max>15){
-                        head.setColorFilter(Color.parseColor("#4c0000"));
+                        head.setColorFilter(Color.parseColor("#e50000"));
                     } else {
                         if(max>10){
-                            head.setColorFilter(Color.parseColor("#660000"));
+                            head.setColorFilter(Color.parseColor("#B20000"));
+                        }else{
+                            head.setColorFilter(null);
                         }
                     }
         }
@@ -268,19 +276,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
         private void parseJsonData(String jsonStr) throws JSONException {
+
             JSONArray dataJsonArray = new JSONArray(jsonStr);
             // x, y, z values
             int[] posVals = new int[3];
             posVals[0] = dataJsonArray.getInt(0);
             posVals[1] = dataJsonArray.getInt(1);
             posVals[2] = dataJsonArray.getInt(2);
-            count++;
-            if(count%20 == 0) {
-                head.setRotation(-posVals[0] * 3);
-                int max = Math.max(Math.abs(posVals[1]), Math.abs(posVals[0]));
-                head.setTranslationY(max * 8);
-            }
-            if (count % 10 == 0) {
+            countData++;
+            if (countData % 10 == 0) {
                 // Send data to handler
                 Message message = new Message();
                 message.obj = posVals;
