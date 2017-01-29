@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="216dp"
         android:layout_marginTop="50dp">
 
         <TableRow
@@ -67,8 +70,18 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/z"
                 android:textSize="50sp" />
+
         </TableRow>
 
     </TableLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:srcCompat="@mipmap/headleft"
+        android:id="@+id/head"
+        android:layout_weight="0.66"
+        android:padding="50dp"
+        android:foregroundTintMode="add" />
 
 </LinearLayout>

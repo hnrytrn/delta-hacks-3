@@ -3,6 +3,7 @@ package com.example.henrytran.deltahacksandroid;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,11 +14,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
+import com.yayandroid.rotatable.Rotatable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,18 +36,16 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int DATA_MESSAGE = 10;
-
     // GoogleAPIClient used for location services
     private GoogleApiClient mGoogleApiClient;
-
     private Location mLastLocation;
     private Econtact mEContact;
     private final String LOG_TAG = this.getClass().getSimpleName();
-
+    private ImageView head;
     private TextView xCordTV;
     private TextView yCordTV;
     private TextView zCordTV;
-
+    int count = 5;
     private boolean stopBackgroundThread;
 
     private int sleepCount = 0;
@@ -66,6 +67,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     callNumber();
                 }
             }
+            int max = Math.max(Math.abs(posVals[1]), Math.abs(posVals[0]));
+
+                    if(max>15){
+                        head.setColorFilter(Color.parseColor("#4c0000"));
+                    }else{
+                        if(max>10){
+                            head.setColorFilter(Color.parseColor("#660000"));
+                        }else{
+                            if(max>8){
+                                head.setColorFilter(Color.parseColor("#990000"));
+                            }else{
+                                if(max>5){
+                                    head.setColorFilter(Color.parseColor("#ff0000"));
+                                }
+                            }
+
+                        }
+
+
+
+                    }
         }
     };
 
@@ -73,11 +95,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drive);
-
         xCordTV = (TextView) findViewById(R.id.x);
         yCordTV = (TextView) findViewById(R.id.y);
         zCordTV = (TextView) findViewById(R.id.z);
-
+        head = (ImageView) findViewById(R.id.head);
 //        // Create an instance of GoogleAPIClient
 //        if (mGoogleApiClient == null) {
 //            mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -236,6 +257,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
          * @param jsonStr json string response from http server
          * @throws JSONException
          */
+
+
         private void parseJsonData(String jsonStr) throws JSONException {
             JSONArray dataJsonArray = new JSONArray(jsonStr);
             // x, y, z values
@@ -243,11 +266,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             posVals[0] = dataJsonArray.getInt(0);
             posVals[1] = dataJsonArray.getInt(1);
             posVals[2] = dataJsonArray.getInt(2);
+            count++;
+            if(count%20 == 0) {
+                head.setRotation(posVals[0] * 3);
+                int max = Math.max(Math.abs(posVals[1]), Math.abs(posVals[0]));
+                head.setTranslationY(max * 8);
 
+            }
             // Send data to handler
             Message message = new Message();
             message.obj = posVals;
             mHandler.sendMessage(message);
         }
+
+
+
+
+
+
     }
 }

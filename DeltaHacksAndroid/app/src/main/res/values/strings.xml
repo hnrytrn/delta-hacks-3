@@ -5,6 +5,7 @@
     <string name="title_activity_enter_contact">enterContactActivity</string>
     <string name="title_activity_menu">menuActivity</string>
     <string name="title_activity_drive">driveActivity</string>
+    <string name="title_activity_test">testActivity</string>
 
 
 </resources>
