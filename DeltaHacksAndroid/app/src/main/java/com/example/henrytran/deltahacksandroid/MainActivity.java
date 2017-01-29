@@ -1,10 +1,12 @@
 package com.example.henrytran.deltahacksandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     Location mLastLocation;
 
+    String eContactNumber;
     String LOG_TAG = this.getClass().getSimpleName();
 
     @Override
@@ -38,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     .build();
             Log.d(LOG_TAG, mGoogleApiClient.toString());
         }
+
+        // Get eContactNumber from shared preferences
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        eContactNumber = prefs.getString("eContact", "");
     }
 
     @Override
@@ -84,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void callNumber() {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:123456789"));
+        callIntent.setData(Uri.parse("tel:" + eContactNumber));
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
