@@ -3,6 +3,27 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:text="Menu"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/textView"
+        android:textAlignment="center"
+        android:padding="10dp"
+        android:textSize="20sp" />
+
+    <Button
+        android:text="Settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/settingsButton" />
+
+    <Button
+        android:text="Review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reviewButton" />
+
     <Button
         android:text="Drive"
         android:layout_width="match_parent"

@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class enterContactActivity extends AppCompatActivity {
     private static final String TAG1 = "LD";
     private Econtact econtact1 ;
@@ -96,12 +99,12 @@ public class enterContactActivity extends AppCompatActivity {
             Log.d(TAG1,"No phone num");
             return false;
         }
-//        if (phoneNumCheck(phoneNum)) {
-////            Invalid PhoneNum
-////            TODO: Invalid Phone number alert!
-//            Log.d(TAG1,"Phone Num Not Valid");
-//            return false;
-//        }
+        if (!isPhoneNumberValid(phoneNum)) {
+//            Invalid PhoneNum
+//            TODO: Invalid Phone number alert!
+            Log.d(TAG1,"Phone Num Not Valid");
+            return false;
+        }
 
 
         econtact1 = new Econtact(fName,lName,phoneNum);
@@ -109,14 +112,36 @@ public class enterContactActivity extends AppCompatActivity {
         return true;
     }
 
-//    boolean phoneNumCheck(String phoneTest){
-//        String[] regexStr = {"^[0-9]*$","^[0-9]{10}$","^[0-9\\-]*$","^(1\\-)?[0-9]{3}\\-?[0-9]{3}\\-?[0-9]{4}$"};
-//        for (String x:regexStr) {
-//            if (phoneTest.matches(x)){
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+
+    public static boolean isPhoneNumberValid(String phoneNumber){
+        boolean isValid = false;
+
+        //Initialize reg ex for phone number.
+        String expression= "(\\d{10})";
+
+
+            CharSequence inputStr = phoneNumber;
+            Pattern pattern = Pattern.compile(expression);
+            Matcher matcher = pattern.matcher(inputStr);
+            if(matcher.matches()){
+                isValid = true;
+            }
+
+        String expression2= "(\\d{3})(\\[-])(\\d{7})";
+
+
+        CharSequence inputStr2 = phoneNumber;
+        Pattern pattern2 = Pattern.compile(expression);
+        Matcher matcher2 = pattern.matcher(inputStr);
+        if(matcher.matches()){
+            isValid = true;
+        }
+
+
+//        "(\\[(])(\\d{3})(\\[)])(\\d{7})","(\\[(])(\\d{3})(\\[)])(\\d{3})(\\[-])(\\d{4})"
+
+
+        return isValid;
+    }
 
 }

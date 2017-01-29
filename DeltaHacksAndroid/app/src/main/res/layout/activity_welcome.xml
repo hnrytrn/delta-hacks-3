@@ -1,23 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:text="Welcome!"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <TextView
         android:text="LifeLine"
         android:layout_width="match_parent"
+        android:id="@+id/title"
         android:layout_height="wrap_content"
-        android:id="@+id/title" />
+        android:textAlignment="center"
+        android:textSize="50sp"
+        android:padding="10dp" />
+
+    <TextView
+        android:text="Welcome to LifeLine!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/welcome"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="256dp"
+        app:srcCompat="@mipmap/logo1"
+        android:id="@+id/imageView"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:layout_weight="1.03" />
 
     <Button
         android:text="enter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/enterButton" />
+        android:id="@+id/enterButton"
+        android:layout_height="172dp" />
 </LinearLayout>

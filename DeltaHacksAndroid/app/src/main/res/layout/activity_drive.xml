@@ -3,4 +3,72 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="x: "
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/xLabel"
+                android:textSize="50sp"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                android:text="-29"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/x"
+                android:textSize="50sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="y: "
+                android:layout_height="wrap_content"
+                android:id="@+id/yLabel"
+                android:layout_width="match_parent"
+                android:textSize="50sp"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                android:text="13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/y"
+                android:textSize="50sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="z: "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/zLabel"
+                android:textSize="50sp"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                android:text="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/z"
+                android:textSize="50sp" />
+        </TableRow>
+
+    </TableLayout>
+
 </LinearLayout>

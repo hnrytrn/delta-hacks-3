@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,41 +8,62 @@
         android:text="Enter an Emergency Contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3" />
+        android:id="@+id/textView3"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="25sp"
+        android:paddingBottom="30dp"
+        android:paddingTop="30dp" />
 
-    <TextView
-        android:text="Contact"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView4" />
+        android:layout_height="248dp"
+        android:layout_weight="0.57">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="First Name"
-        android:ems="10"
-        android:id="@+id/fName" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:elevation="0dp"
+            android:fadingEdge="vertical"
+            android:contextClickable="true">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Last Name"
-        android:ems="10"
-        android:id="@+id/lName" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/fName"
+                android:layout_weight="1"
+                android:hint="First Name..." />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:ems="10"
-        android:id="@+id/phoneNumber"
-        android:text="Phone Number" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/lName"
+                android:layout_weight="1"
+                android:hint="Last Name..." />
 
-    <Button
-        android:text="Submit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/enterButton" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/phoneNumber"
+                android:layout_weight="1"
+                android:contentDescription="Enter your phone number here"
+                android:hint="Phone Number..." />
+
+            <Button
+                android:text="Submit"
+                android:layout_width="match_parent"
+                android:layout_height="266dp"
+                android:id="@+id/enterButton"
+                android:textSize="20sp"
+                android:elevation="15dp" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
