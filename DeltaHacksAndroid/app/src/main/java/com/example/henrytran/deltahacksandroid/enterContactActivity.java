@@ -1,17 +1,16 @@
 package com.example.henrytran.deltahacksandroid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class enter_econtact_Activity extends AppCompatActivity {
-
-
+public class enterContactActivity extends AppCompatActivity {
     private static final String TAG1 = "LD";
     private Econtact econtact1 ;
 
@@ -20,10 +19,10 @@ public class enter_econtact_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.enter_econtact);
+        setContentView(R.layout.activity_enter_contact);
 
 //        Set Button Listener
-        ((Button) findViewById(R.id.submit_econtact)).setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.enterButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG1,"Econtact Submit Press");
@@ -41,7 +40,8 @@ public class enter_econtact_Activity extends AppCompatActivity {
 
 //                    Change to Menu View
 
-                    setContentView(R.layout.menu);
+                  Intent intent = new Intent(enterContactActivity.this, menuActivity.class);
+                    startActivity(intent);
                     return;
                 }
                 else{
@@ -98,8 +98,8 @@ public class enter_econtact_Activity extends AppCompatActivity {
 
     public boolean setEcontact() {
 
-        String fName = ((EditText) findViewById(R.id.firstName)).getText().toString();
-        String lName = ((EditText) findViewById(R.id.lastName)).getText().toString();
+        String fName = ((EditText) findViewById(R.id.fName)).getText().toString();
+        String lName = ((EditText) findViewById(R.id.lName)).getText().toString();
         String phoneNum = ((EditText) findViewById(R.id.phoneNumber)).getText().toString();
 
         if (fName == null || fName.length() == 0) {

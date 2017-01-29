@@ -7,24 +7,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class welcomeActivity extends AppCompatActivity {
+public class menuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_menu);
 
-
-//        Set Button Listener
-        ((Button) findViewById(R.id.enterButton)).setOnClickListener(new View.OnClickListener() {
+        //        Set Button Listener
+        ((Button) findViewById(R.id.driveButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("LD", "Enter button of welcome pressed");
 
-                Intent intent = new Intent(welcomeActivity.this, loadingActivity.class);
+                Intent intent = new Intent(menuActivity.this, MainActivity.class);
                 startActivity(intent);
             }
 
         });
     }
+
 }

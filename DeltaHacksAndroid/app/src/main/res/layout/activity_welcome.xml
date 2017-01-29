@@ -3,21 +3,21 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:text="Drive"
+    <TextView
+        android:text="Welcome!"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button3" />
+        android:id="@+id/textView" />
+
+    <TextView
+        android:text="LifeLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title" />
 
     <Button
-        android:text="Review"
+        android:text="enter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button2" />
-
-    <Button
-        android:text="settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button4" />
+        android:id="@+id/enterButton" />
 </LinearLayout>

@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Awake-O-Meter</string>
+    <string name="title_activity_welcome">welcomeActivity</string>
+    <string name="title_activity_loading">loadingActivity</string>
+    <string name="title_activity_enter_contact">enterContactActivity</string>
+    <string name="title_activity_menu">menuActivity</string>
+    <string name="title_activity_drive">driveActivity</string>
 
 
 </resources>
