@@ -29,14 +29,11 @@ public class enterContactActivity extends AppCompatActivity {
         ((Button) findViewById(R.id.enterButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e(LOG_TAG,"Econtact Submit Press");
                 if(setEcontact()){
 
 //                  Save Contact Info (setEcontact sets local var econtact1
 
                     SharedPreferences prefs = getSharedPreferences("EContactInfo", MODE_PRIVATE);
-
-                    Log.e(LOG_TAG,"Saving Econtact: "+ econtact1);
 
                     SharedPreferences.Editor prefsEditor = prefs.edit();
                     Gson gson = new Gson();

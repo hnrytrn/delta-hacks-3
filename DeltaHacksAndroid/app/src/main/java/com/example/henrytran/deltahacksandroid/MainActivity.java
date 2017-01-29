@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView yCordTV;
     private TextView zCordTV;
 
+    private boolean stopBackgroundThread;
     // Handles data coming from the server
     private final Handler mHandler = new Handler() {
 
@@ -54,8 +55,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             yCordTV.setText(String.valueOf(posVals[1]));
             zCordTV.setText(String.valueOf(posVals[2]));
 
-            if (posVals[0] > 20 || posVals[1] > 20) {
-                Log.e(LOG_TAG, mEContact.getPhoneNumber());
+            if (posVals[0] > 20 || posVals[1] > 20 || posVals[0] < -20 || posVals[1] < -20) {
+                Log.e(LOG_TAG, "Falling asleep..");
+                //reset posVals
+                posVals[0] = 0;
+                posVals[1] = 0;
+                posVals[2] = 0;
                 callNumber();
             }
         }
@@ -153,8 +158,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Log.e(LOG_TAG, "Can't Call " + Uri.parse("tel:" + mEContact.getPhoneNumber()).toString());
             return;
         }
+        stopBackgroundThread = true;
         startActivity(callIntent);
     }
 
@@ -170,7 +177,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             BufferedReader reader = null;
             String jsonData = null;
 
-            while (true) {
+            stopBackgroundThread = false;
+
+            while (!stopBackgroundThread) {
                 try {
                     // Create request to http server
                     URL url = new URL("http://172.17.43.101:8080");
